@@ -59,6 +59,13 @@ app.get('/about', (req, res) => {
   });
 });
 
+app.get('/products', (req, res) => {
+  res.render('products.hbs', {
+    pageTitle: 'Products',
+
+  });
+});
+
 app.get('/bad', (req, res) => {
   res.send({
     errorMessage: 'Page Not found'

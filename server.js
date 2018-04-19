@@ -1,6 +1,8 @@
 const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
+const botui = require('botui');
+//const vue = require('vue');
 
 const port = process.env.PORT || 3000;
 
@@ -62,6 +64,14 @@ app.get('/about', (req, res) => {
 app.get('/products', (req, res) => {
   res.render('products.hbs', {
     pageTitle: 'Products',
+
+  });
+});
+
+app.get('/bot', (req, res) => {
+  res.render('bot.hbs', {
+    pageTitle: 'ChatBot',
+    return new BotUI('reminder-bot');
 
   });
 });

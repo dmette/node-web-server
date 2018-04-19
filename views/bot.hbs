@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BotUI - Hello World with HTML</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css" />
+    <meta name="description" content="A hello world bot with HTML in content. A conversational UI built using BotUI.">
+  </head>
+  <body>
+    <div class="botui-app-container" id="reminder-bot">
+      <bot-ui></bot-ui>
+    </div>
+    <script src="https://cdn.jsdelivr.net/vue/2.0.5/vue.min.js"></script>
+    <script src="https://unpkg.com/botui/build/botui.js"></script>
+    <script >
+    var botui = new BotUI('reminder-bot');
+
+  botui.message
+    .bot('Hello, would you like to add a reminder?')
+    .then(function () {
+      return botui.action.button({
+        delay: 1000,
+        action: [{
+          text: 'Yes, please!',
+          value: 'yes'
+        }, {
+          text: 'No thanks',
+          value: 'no'
+        }]
+      })
+  }).then(function (res) {
+    if(res.value == 'yes') {
+      showReminderInput();
+    } else {
+      botui.message.bot('Okay. Maybe next time!');
+    }
+  });
+
+  var showReminderInput = function () {
+    botui.message
+      .bot({
+        delay: 500,
+        content: 'Write your reminder below:'
+      })
+      .then(function () {
+        return botui.action.text({
+          delay: 1000,
+          action: {
+            placeholder: 'Buy some milk'
+          }
+        })
+      }).then(function (res) {
+        botui.message
+          .bot({
+            delay: 500,
+            content: 'Reminder added: ' + res.value
+          });
+
+        return botui.action.button({
+          delay: 1000,
+          action: [{
+            icon: 'plus',
+            text: 'Add another',
+            value: 'yes'
+          }]
+        })
+      }).then(showReminderInput);
+  }
+    </script>
+  </body>
+</html>

@@ -70,9 +70,7 @@ app.get('/products', (req, res) => {
 
 app.get('/bot', (req, res) => {
   res.render('bot.hbs', {
-    pageTitle: 'ChatBot',
-    return new BotUI('reminder-bot');
-
+    pageTitle: 'ChatBot'
   });
 });
 

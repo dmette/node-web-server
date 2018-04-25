@@ -2,72 +2,322 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>BotUI - Hello World with HTML</title>
+    <title>Winning</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css" />
+    <!-- <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" /> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css" /> -->
+    <link rel="stylesheet" type="text/css" href='/css/botui.min.css'/>
+    <link rel="stylesheet" type="text/css" href='/css/botui-theme-default.css'/>
+
     <meta name="description" content="A hello world bot with HTML in content. A conversational UI built using BotUI.">
+
+
   </head>
   <body>
+<div class='backbot'>
     <div class="botui-app-container" id="reminder-bot">
       <bot-ui></bot-ui>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/vue/2.0.5/vue.min.js"></script>
     <script src="https://unpkg.com/botui/build/botui.js"></script>
     <script >
     var botui = new BotUI('reminder-bot');
 
-  botui.message
-    .bot('Hello, would you like to add a reminder?')
-    .then(function () {
+botui.message
+  .bot('Hello, I am here to connect you with options.')
+  .then(function () {
+      botui.message
+        .bot({
+          delay: 300,
+          content: 'Are you looking to explore options?'
+        })
+		}).then(function () {
       return botui.action.button({
-        delay: 1000,
+        delay: 50,
         action: [{
-          text: 'Yes, please!',
+          text: 'Yes',
           value: 'yes'
         }, {
-          text: 'No thanks',
+          text: 'No',
           value: 'no'
         }]
       })
-  }).then(function (res) {
-    if(res.value == 'yes') {
-      showReminderInput();
+    }).then(function (res) {
+	  if(res.value == 'yes') {
+      botui.message
+        .bot({
+          delay: 100,
+          content: 'Great! Are you a child or a parent?'
+		  })
+	     return botui.action.button({
+        delay: 10,
+        action: [{
+          text: 'Child',
+          value: 'child'
+        }, {
+          text: 'Parent',
+          value: 'parent'
+        }]
+      }).then(function (res) {
+  if(res.value == 'child') {
+    studentInput();
+  } else {
+    schoolInput();
+  }
+})
     } else {
-      botui.message.bot('Okay. Maybe next time!');
-    }
-  });
+      botui.message.bot({
+          delay: 500,
+		  content: 'Thanks for stopping by.'
+		  });
+}
+});
 
-  var showReminderInput = function () {
+//break into 2nd group
+var studentInput = function () {
+  botui.message
+    .bot({
+      delay: 500,
+      content: 'Are you looking for under or over?'
+    })
+  .then(function () {
+      return botui.action.button({
+        delay: 50,
+        action: [{
+          text: 'Under',
+          value: 'under'
+        }, {
+          text: 'Over',
+          value: 'over'
+        }]
+      });
+      type = res.value;
+    }).then(function (res) {
+	  if(res.value == 'over') {
+      botui.message
+        .bot({
+          delay: 100,
+          content: 'What is your specialty?'
+		  }).then(function () {
+      return botui.action.text({
+        delay: 1000,
+        action: {
+          placeholder: 'Medicine'
+        }
+      })
+    }).then(function (res) {
+      botui.message
+        .bot({
+          delay: 500,
+          content: 'Specialty added: ' + res.value
+        });
+        return schoolInput();
+      })
+    } else {
+      schoolInput();
+		  }
+    });
+  };
+
+  var schoolInput = function () {
     botui.message
       .bot({
         delay: 500,
-        content: 'Write your reminder below:'
+        content: 'Which school?'
       })
-      .then(function () {
+    .then(function () {
         return botui.action.text({
           delay: 1000,
           action: {
-            placeholder: 'Buy some milk'
+            placeholder: 'University of...'
           }
         })
       }).then(function (res) {
         botui.message
           .bot({
             delay: 500,
-            content: 'Reminder added: ' + res.value
+            content: 'School added: ' + res.value
           });
-
-        return botui.action.button({
+          school = res.value;
+        }).then(function () {
+      botui.message
+        .bot({
           delay: 1000,
-          action: [{
-            icon: 'plus',
-            text: 'Add another',
-            value: 'yes'
-          }]
-        })
-      }).then(showReminderInput);
+          content: 'How much is needed?'
+        });
+      return botui.action.text({
+        delay: 1000,
+        action: {
+          placeholder: '$120,000'
+        }
+    })
+  }).then(function (res) {
+      botui.message
+        .bot({
+          delay: 500,
+          content: 'Amount requested: ' + res.value
+        });
+        amount = res.value;
+      }).then(function () {
+    botui.message
+      .bot({
+        delay: 1000,
+        content: 'What year will you graduate?'
+      });
+    return botui.action.text({
+      delay: 1000,
+      action: {
+        placeholder: '2020'
+      }
+  })
+}).then(function (res) {
+    botui.message
+      .bot({
+        delay: 500,
+        content: 'Grad year: ' + res.value
+
+      });
+      gradyear = res.value;
+    }).then(function () {
+  botui.message
+    .bot({
+      delay: 1000,
+      content: 'What month will you graduate?'
+    });
+  return botui.action.text({
+    delay: 1000,
+    action: {
+      placeholder: 'January'
+    }
+})
+}).then(function (res) {
+  botui.message
+    .bot({
+      delay: 500,
+      content: 'Grad month: ' + res.value
+
+    });
+    gradmonth = res.value;
+  }).then(function () {
+botui.message
+  .bot({
+    delay: 1000,
+    content: 'What is your home zip code?'
+  });
+return botui.action.text({
+  delay: 1000,
+  action: {
+    placeholder: '90210'
   }
+})
+}).then(function (res) {
+botui.message
+  .bot({
+    delay: 500,
+    content: 'Zip code: ' + res.value
+
+  });
+  zip = res.value;
+}).then(function () {
+botui.message
+.bot({
+  delay: 1000,
+  content: 'What is your email address?'
+});
+return botui.action.text({
+delay: 1000,
+action: {
+  placeholder: 'me@me.com'
+}
+})
+}).then(function (res) {
+botui.message
+.bot({
+  delay: 500,
+  content: 'Email: ' + res.value
+
+});
+email = res.value;
+}).then(function () {
+    botui.message
+      .bot({
+        delay: 300,
+        content: 'Would you like to be notified?'
+      })
+  }).then(function () {
+    return botui.action.button({
+      delay: 50,
+      action: [{
+        text: 'Yes',
+        value: 'yes'
+      }, {
+        text: 'No',
+        value: 'no'
+      }]
+    })
+  }).then(function () {
+      botui.message
+        .bot({
+          delay: 300,
+          content: 'We are locating results for your request for '+amount+' to attend '+school+' for graduation in '+gradmonth+' '+gradyear+'.'
+        })
+    })
+      };
+
+
+// email, opt, summary, generating results, then show actual results
+  // botui.message
+  //   .bot('Hello, would you like to add a reminder?')
+  //   .then(function () {
+  //     return botui.action.button({
+  //       delay: 1000,
+  //       action: [{
+  //         text: 'Yes, please!',
+  //         value: 'yes'
+  //       }, {
+  //         text: 'No thanks',
+  //         value: 'no'
+  //       }]
+  //     })
+  // }).then(function (res) {
+  //   if(res.value == 'yes') {
+  //     showReminderInput();
+  //   } else {
+  //     botui.message.bot('Okay. Maybe next time!');
+  //   }
+  // });
+  //
+  // var showReminderInput = function () {
+  //   botui.message
+  //     .bot({
+  //       delay: 500,
+  //       content: 'Write your reminder below:'
+  //     })
+  //     .then(function () {
+  //       return botui.action.text({
+  //         delay: 1000,
+  //         action: {
+  //           placeholder: 'Buy some milk'
+  //         }
+  //       })
+  //     }).then(function (res) {
+  //       botui.message
+  //         .bot({
+  //           delay: 500,
+  //           content: 'Reminder added: ' + res.value
+  //         });
+  //
+  //       return botui.action.button({
+  //         delay: 1000,
+  //         action: [{
+  //           icon: 'plus',
+  //           text: 'Add another',
+  //           value: 'yes'
+  //         }]
+  //       })
+  //     }).then(showReminderInput);
+  // }
     </script>
   </body>
 </html>

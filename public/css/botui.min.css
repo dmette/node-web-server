@@ -6,7 +6,7 @@
  * Copyright 2017, Moin Uddin
  * Released under the MIT license.
 */
-
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 a.botui-message-content-link:focus{outline:thin dotted}
 a.botui-message-content-link:focus:active,a.botui-message-content-link:focus:hover{outline:0}
 form.botui-actions-text{margin:0}

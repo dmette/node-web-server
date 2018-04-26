@@ -107,11 +107,11 @@ var studentInput = function () {
         }
       })
     }).then(function (res) {
-      botui.message
-        .bot({
-          delay: 500,
-          content: 'Specialty added: ' + res.value
-        });
+      // botui.message
+      //   .bot({
+      //     delay: 500,
+      //     content: 'Specialty added: ' + res.value
+      //   });
         return schoolInput();
       })
     } else {
@@ -130,15 +130,15 @@ var studentInput = function () {
         return botui.action.text({
           delay: 1000,
           action: {
-            placeholder: 'University of...'
+            placeholder: 'University of America'
           }
         })
       }).then(function (res) {
-        botui.message
-          .bot({
-            delay: 500,
-            content: 'School added: ' + res.value
-          });
+        // botui.message
+        //   .bot({
+        //     delay: 500,
+        //     content: 'School added: ' + res.value
+        //   });
           school = res.value;
         }).then(function () {
       botui.message
@@ -153,11 +153,11 @@ var studentInput = function () {
         }
     })
   }).then(function (res) {
-      botui.message
-        .bot({
-          delay: 500,
-          content: 'Amount requested: ' + res.value
-        });
+      // botui.message
+      //   .bot({
+      //     delay: 500,
+      //     content: 'Amount requested: ' + res.value
+      //   });
         amount = res.value;
       }).then(function () {
     botui.message
@@ -172,12 +172,12 @@ var studentInput = function () {
       }
   })
 }).then(function (res) {
-    botui.message
-      .bot({
-        delay: 500,
-        content: 'Grad year: ' + res.value
-
-      });
+    // botui.message
+    //   .bot({
+    //     delay: 500,
+    //     content: 'Grad year: ' + res.value
+    //
+    //   });
       gradyear = res.value;
     }).then(function () {
   botui.message
@@ -192,12 +192,12 @@ var studentInput = function () {
     }
 })
 }).then(function (res) {
-  botui.message
-    .bot({
-      delay: 500,
-      content: 'Grad month: ' + res.value
-
-    });
+  // botui.message
+  //   .bot({
+  //     delay: 500,
+  //     content: 'Grad month: ' + res.value
+  //
+  //   });
     gradmonth = res.value;
   }).then(function () {
 botui.message
@@ -212,12 +212,12 @@ return botui.action.text({
   }
 })
 }).then(function (res) {
-botui.message
-  .bot({
-    delay: 500,
-    content: 'Zip code: ' + res.value
-
-  });
+// botui.message
+//   .bot({
+//     delay: 500,
+//     content: 'Zip code: ' + res.value
+//
+//   });
   zip = res.value;
 }).then(function () {
 botui.message
@@ -232,12 +232,12 @@ action: {
 }
 })
 }).then(function (res) {
-botui.message
-.bot({
-  delay: 500,
-  content: 'Email: ' + res.value
-
-});
+// botui.message
+// .bot({
+//   delay: 500,
+//   content: 'Email: ' + res.value
+//
+// });
 email = res.value;
 }).then(function () {
     botui.message
@@ -262,7 +262,13 @@ email = res.value;
           delay: 300,
           content: 'We are locating results for your request for '+amount+' to attend '+school+' for graduation in '+gradmonth+' '+gradyear+'.'
         })
-    })
+    }).then(function () {
+        botui.message
+          .bot({
+            delay: 1000,
+            content: 'We have located your results. '
+          })
+      })
       };
 
 
